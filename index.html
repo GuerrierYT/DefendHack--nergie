@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WattLab - Comprendre l'énergie en jouant</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#missions" aria-label="WattLab">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>WattLab</span>
+      </a>
+      <nav class="module-nav" aria-label="Modules">
+        <a class="active" href="#missions" data-mission="missions">Carte</a>
+        <a href="#jeu" data-mission="jeu">1 kWh</a>
+        <a href="#rendement" data-mission="rendement">Rendement</a>
+        <a href="#stockage" data-mission="stockage">Stockage</a>
+        <a href="#mix" data-mission="mix">Mix</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="mission-map" id="missions" aria-labelledby="mission-map-title">
+        <div class="mission-intro">
+          <p class="eyebrow">Carte des missions</p>
+          <h1 id="mission-map-title">Choisis ton d&eacute;fi &eacute;nergie</h1>
+          <p class="lead">
+            Un concept &agrave; la fois, un mini-jeu par mission. Tu peux suivre le
+            parcours dans l'ordre ou entrer par le sujet qui t'intrigue.
+          </p>
+        </div>
+        <div class="mission-grid" aria-label="Missions disponibles">
+          <button class="mission-card" type="button" data-mission="jeu">
+            <span class="mission-icon kwh-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Mission 01 &middot; 3 min</span>
+            <strong>Remplis 1 kWh</strong>
+            <span>Compose une journ&eacute;e et apprends les ordres de grandeur.</span>
+            <b>Lancer</b>
+          </button>
+          <button class="mission-card" type="button" data-mission="rendement">
+            <span class="mission-icon loss-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Mission 02 &middot; 4 min</span>
+            <strong>Traque les pertes</strong>
+            <span>Suis l'&eacute;nergie &agrave; chaque conversion jusqu'&agrave; la sortie utile.</span>
+            <b>Lancer</b>
+          </button>
+          <button class="mission-card" type="button" data-mission="stockage">
+            <span class="mission-icon storage-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Mission 03 &middot; 5 min</span>
+            <strong>Passe la nuit</strong>
+            <span>Stocke assez d'&eacute;nergie sans exploser les pertes ni le co&ucirc;t.</span>
+            <b>Lancer</b>
+          </button>
+          <button class="mission-card" type="button" data-mission="mix">
+            <span class="mission-icon mix-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Mission 04 &middot; 4 min</span>
+            <strong>Construis le mix</strong>
+            <span>Atteins 100% en &eacute;quilibrant CO2, co&ucirc;t et stabilit&eacute;.</span>
+            <b>Lancer</b>
+          </button>
+        </div>
+      </section>
+
+      <section class="lab mission-screen" id="jeu" aria-labelledby="main-title" hidden>
+        <div class="lab-panel intro-panel">
+          <p class="eyebrow">Prototype 01</p>
+          <h1 id="main-title">1 kWh, ça représente quoi ?</h1>
+          <p class="lead">
+            Compose une mini-journée avec un budget fixe de 1 kWh. Le compteur
+            descend, les ordres de grandeur apparaissent, et la notion devient
+            enfin manipulable.
+          </p>
+          <div class="key-fact">
+            <span class="key-fact-value">1 kWh</span>
+            <span class="key-fact-text">= 1 000 watts pendant 1 heure, ou 100 watts pendant 10 heures.</span>
+          </div>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+
+        <section class="play-area" aria-label="Mini-jeu 1 kWh">
+          <aside class="meter-panel" aria-label="Budget énergétique">
+            <canvas id="energy-canvas" width="360" height="220" aria-hidden="true"></canvas>
+            <div class="meter-readout">
+              <span>Budget restant</span>
+              <strong id="remaining-kwh">1,000 kWh</strong>
+            </div>
+            <div class="meter-bar" id="meter-fill" aria-hidden="true"></div>
+            <div class="score-row">
+              <div>
+                <span>Consommé</span>
+                <strong id="used-kwh">0,000 kWh</strong>
+              </div>
+              <div>
+                <span>Actions</span>
+                <strong id="action-count">0</strong>
+              </div>
+            </div>
+            <div class="game-status">
+              <span>Défi</span>
+              <strong id="kwh-score">0 / 100</strong>
+              <p id="kwh-mission">Approche-toi de 1 kWh sans dépasser.</p>
+            </div>
+            <button class="secondary-button" id="reset-button" type="button">Réinitialiser</button>
+          </aside>
+
+          <div class="choice-panel">
+            <div class="section-title">
+              <p class="eyebrow">Budget de jeu</p>
+              <h2>Choisis des usages</h2>
+            </div>
+            <div class="activity-grid" id="activity-grid"></div>
+          </div>
+        </section>
+
+        <section class="result-panel" aria-live="polite">
+          <div>
+            <p class="eyebrow">Débrief</p>
+            <h2 id="result-title">Ton kWh est prêt.</h2>
+            <p id="result-copy">
+              Ajoute quelques usages pour voir comment une même quantité
+              d'énergie peut paraître immense ou minuscule selon l'appareil.
+            </p>
+          </div>
+          <ol class="timeline" id="selection-list" aria-label="Usages choisis"></ol>
+        </section>
+      </section>
+
+      <section class="module-section mission-screen" id="rendement" aria-labelledby="efficiency-title" hidden>
+        <div class="module-heading">
+          <p class="eyebrow">Prototype 02</p>
+          <h2 id="efficiency-title">Rendement et pertes</h2>
+          <p>
+            Pars de 100 unités d'énergie et compare ce qui arrive vraiment à
+            l'usage final. Les pertes ne disparaissent pas : elles deviennent
+            souvent de la chaleur moins utile.
+          </p>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+        <div class="game-layout efficiency-game">
+          <div class="option-list" id="efficiency-options" aria-label="Chaînes énergétiques"></div>
+          <div class="science-panel">
+            <div class="game-status">
+              <span>Défi</span>
+              <strong id="efficiency-score">0 / 100</strong>
+              <p id="efficiency-challenge">Choisis une chaîne qui garde au moins 70 unités utiles.</p>
+            </div>
+            <div class="energy-animation" id="efficiency-animation" aria-label="Animation énergie pertes">
+              <div class="animation-node input-node">100</div>
+              <div class="particle-field" id="particle-field"></div>
+              <div class="animation-targets">
+                <div class="animation-node useful-node">utile</div>
+                <div class="animation-node loss-node">pertes</div>
+              </div>
+            </div>
+            <div class="flow-stack" id="efficiency-flow" aria-label="Étapes de conversion"></div>
+            <div class="metric-grid">
+              <div>
+                <span>Énergie utile</span>
+                <strong id="efficiency-useful">0 unités</strong>
+              </div>
+              <div>
+                <span>Pertes</span>
+                <strong id="efficiency-loss">0 unités</strong>
+              </div>
+            </div>
+            <p class="science-note" id="efficiency-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="module-section mission-screen" id="stockage" aria-labelledby="storage-title" hidden>
+        <div class="module-heading">
+          <p class="eyebrow">Prototype 03</p>
+          <h2 id="storage-title">Stocke ou blackout</h2>
+          <p>
+            Une ville solaire produit trop à midi et pas assez le soir. Ajuste
+            les moyens de stockage pour passer la nuit avec le moins de pertes
+            possible.
+          </p>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+        <div class="game-layout">
+          <div class="control-panel" aria-label="Réglages de stockage">
+            <label class="range-control">
+              <span>Batteries</span>
+              <input id="battery-storage" type="range" min="0" max="80" value="35">
+              <strong><span id="battery-storage-value">35</span> MWh</strong>
+            </label>
+            <label class="range-control">
+              <span>STEP</span>
+              <input id="step-storage" type="range" min="0" max="80" value="25">
+              <strong><span id="step-storage-value">25</span> MWh</strong>
+            </label>
+            <div class="explain-card">
+              <strong>STEP</strong>
+              <p>
+                Station de transfert d'énergie par pompage : on pompe de l'eau
+                vers un bassin haut quand il y a trop d'électricité, puis on la
+                laisse redescendre dans une turbine quand on en a besoin.
+              </p>
+            </div>
+            <label class="range-control">
+              <span>Hydrogène</span>
+              <input id="hydrogen-storage" type="range" min="0" max="80" value="10">
+              <strong><span id="hydrogen-storage-value">10</span> MWh</strong>
+            </label>
+          </div>
+          <div class="science-panel">
+            <div class="game-status">
+              <span>Défi</span>
+              <strong id="storage-score">0 / 100</strong>
+              <p id="storage-challenge">Passe la nuit sans manque et avec moins de 25 MWh de pertes.</p>
+            </div>
+            <div class="storage-visuals" aria-label="Graphes de stockage">
+              <div class="storage-chart">
+                <div class="chart-head">
+                  <strong>Production et demande</strong>
+                  <span>jour simplifié</span>
+                </div>
+                <div class="day-curve" id="storage-curve"></div>
+              </div>
+              <div class="storage-chart">
+                <div class="chart-head">
+                  <strong>Besoin du soir</strong>
+                  <span>objectif 72 MWh</span>
+                </div>
+                <div class="coverage-gauge">
+                  <span id="storage-coverage-fill"></span>
+                </div>
+                <div class="coverage-labels">
+                  <span id="storage-coverage-label">0% couvert</span>
+                  <span id="storage-surplus-label">0 MWh marge</span>
+                </div>
+              </div>
+              <div class="storage-chart storage-balance-card">
+                <div class="chart-head">
+                  <strong>Bilan du stockage</strong>
+                  <span>sortie utile, pertes, manque</span>
+                </div>
+                <div class="storage-balance" id="storage-balance"></div>
+              </div>
+              <div class="storage-chart">
+                <div class="chart-head">
+                  <strong>Coût par technologie</strong>
+                  <span>indice relatif</span>
+                </div>
+                <div class="cost-bars" id="storage-cost-bars"></div>
+              </div>
+            </div>
+            <div class="storage-day" id="storage-day" aria-label="Simulation jour nuit"></div>
+            <div class="metric-grid">
+              <div>
+                <span>Énergie restituée</span>
+                <strong id="storage-delivered">0 MWh</strong>
+              </div>
+              <div>
+                <span>Manque le soir</span>
+                <strong id="storage-gap">0 MWh</strong>
+              </div>
+              <div>
+                <span>Pertes stockage</span>
+                <strong id="storage-loss">0 MWh</strong>
+              </div>
+              <div>
+                <span>Coût système</span>
+                <strong id="storage-cost">0</strong>
+              </div>
+            </div>
+            <p class="science-note" id="storage-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="module-section mission-screen" id="mix" aria-labelledby="mix-title" hidden>
+        <div class="module-heading">
+          <p class="eyebrow">Prototype 04</p>
+          <h2 id="mix-title">Construis ton mix</h2>
+          <p>
+            Répartis la production d'une ville. Le score ne cherche pas une
+            vérité unique : il montre les compromis entre CO2, coût et stabilité.
+          </p>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+        <div class="game-layout">
+          <div class="control-panel mix-controls" id="mix-controls" aria-label="Sources du mix"></div>
+          <div class="science-panel">
+            <div class="game-status">
+              <span>Défi</span>
+              <strong id="mix-score">0 / 100</strong>
+              <p id="mix-challenge">Atteins 100% avec CO2 bas et stabilité correcte.</p>
+            </div>
+            <div class="mix-donut" id="mix-donut" aria-label="Répartition du mix">
+              <span id="mix-total">100%</span>
+            </div>
+            <div class="metric-grid">
+              <div>
+                <span>Disponible</span>
+                <strong id="mix-remaining">0%</strong>
+              </div>
+              <div>
+                <span>CO2</span>
+                <strong id="mix-carbon">0 g/kWh</strong>
+              </div>
+              <div>
+                <span>Coût</span>
+                <strong id="mix-cost">0</strong>
+              </div>
+              <div>
+                <span>Stabilité</span>
+                <strong id="mix-stability">0%</strong>
+              </div>
+            </div>
+            <p class="science-note" id="mix-note"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
