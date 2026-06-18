@@ -202,7 +202,8 @@ main {
 }
 
 .mission-card:focus-visible,
-.mission-back:focus-visible {
+.mission-back:focus-visible,
+.mission-next:focus-visible {
   outline: 3px solid rgba(47, 111, 159, 0.34);
   outline-offset: 3px;
 }
@@ -265,6 +266,28 @@ main {
 .mission-back:hover {
   border-color: rgba(47, 138, 104, 0.5);
   color: var(--green-dark);
+}
+
+.mission-next {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(47, 138, 104, 0.28);
+  border-radius: 999px;
+  color: #07382b;
+  background: rgba(47, 138, 104, 0.14);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.mission-next:hover {
+  transform: translateY(-1px);
+  border-color: rgba(47, 138, 104, 0.58);
+  background: rgba(47, 138, 104, 0.2);
 }
 
 .lab {
@@ -638,6 +661,10 @@ h2 {
   grid-template-columns: minmax(0, 0.85fr) minmax(300px, 1.15fr);
   gap: 18px;
   padding: 22px;
+}
+
+.result-panel .mission-next {
+  grid-column: 1 / -1;
 }
 
 .result-panel p {
@@ -1407,6 +1434,95 @@ h2 {
 
 .mix-range {
   border-left: 6px solid var(--mix-color);
+}
+
+.mix-range-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mix-range-head label {
+  line-height: 1.2;
+}
+
+.lock-button {
+  position: relative;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(22, 33, 31, 0.14);
+  border-radius: 999px;
+  color: var(--muted);
+  background: #fff;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.lock-button::before,
+.lock-button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  border: 2px solid currentColor;
+}
+
+.lock-button::before {
+  top: 15px;
+  width: 13px;
+  height: 9px;
+  border-radius: 3px;
+  transform: translateX(-50%);
+}
+
+.lock-button::after {
+  top: 7px;
+  width: 10px;
+  height: 9px;
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  transform: translateX(8px);
+}
+
+.lock-button span::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 23px;
+  width: 2px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.lock-button:hover {
+  border-color: rgba(47, 138, 104, 0.5);
+  color: var(--green-dark);
+}
+
+.mix-range.locked {
+  border-color: rgba(22, 33, 31, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.mix-range.locked input {
+  cursor: not-allowed;
+  opacity: 0.52;
+}
+
+.mix-range.locked .lock-button {
+  color: #07382b;
+  border-color: rgba(47, 138, 104, 0.42);
+  background: rgba(47, 138, 104, 0.14);
+}
+
+.mix-range.locked .lock-button::after {
+  transform: translateX(-50%) rotate(0deg);
+}
+
+.mix-range.locked .lock-button span::before {
+  display: none;
 }
 
 .mix-donut {

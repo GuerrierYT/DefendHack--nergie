@@ -440,6 +440,7 @@ const mixSources = [
 ];
 
 const mixState = Object.fromEntries(mixSources.map((source) => [source.id, source.value]));
+const mixLocked = Object.fromEntries(mixSources.map((source) => [source.id, false]));
 
 function formatUnits(value, unit) {
   return `${Math.round(value)} ${unit}`;
@@ -747,26 +748,49 @@ function initMixGame() {
   const controls = document.querySelector("#mix-controls");
 
   mixSources.forEach((source) => {
-    const label = document.createElement("label");
-    label.className = "range-control mix-range";
-    label.style.setProperty("--mix-color", source.color);
-    label.innerHTML = `
-      <span>${source.label}</span>
-      <input type="range" min="0" max="80" value="${source.value}" data-source="${source.id}">
+    const control = document.createElement("div");
+    control.className = "range-control mix-range";
+    control.style.setProperty("--mix-color", source.color);
+    control.innerHTML = `
+      <div class="mix-range-head">
+        <label for="mix-${source.id}-input">${source.label}</label>
+        <button class="lock-button" type="button" data-lock="${source.id}" aria-pressed="false">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <input id="mix-${source.id}-input" type="range" min="0" max="80" value="${source.value}" data-source="${source.id}">
       <strong><span id="mix-${source.id}-value">${source.value}</span>%</strong>
     `;
-    label.querySelector("input").addEventListener("input", (event) => {
+    control.querySelector("input").addEventListener("input", (event) => {
       updateMixSource(source.id, Number(event.target.value));
       renderMix();
     });
-    controls.append(label);
+    control.querySelector(".lock-button").addEventListener("click", () => {
+      toggleMixLock(source.id);
+    });
+    controls.append(control);
   });
 
   renderMix();
 }
 
+function toggleMixLock(sourceId) {
+  mixLocked[sourceId] = !mixLocked[sourceId];
+  renderMix();
+}
+
 function updateMixSource(sourceId, value) {
+  if (mixLocked[sourceId]) {
+    return;
+  }
+
+  const lockedTotal = mixSources
+    .filter((source) => source.id !== sourceId && mixLocked[source.id])
+    .reduce((sum, source) => sum + mixState[source.id], 0);
+  const maxValue = Math.max(0, 100 - lockedTotal);
+
   mixState[sourceId] = value;
+  mixState[sourceId] = Math.min(mixState[sourceId], maxValue);
   let total = Object.values(mixState).reduce((sum, item) => sum + item, 0);
 
   if (total <= 100) {
@@ -775,7 +799,7 @@ function updateMixSource(sourceId, value) {
 
   let overflow = total - 100;
   const others = mixSources
-    .filter((source) => source.id !== sourceId)
+    .filter((source) => source.id !== sourceId && !mixLocked[source.id])
     .sort((a, b) => mixState[b.id] - mixState[a.id]);
 
   others.forEach((source) => {
@@ -787,6 +811,10 @@ function updateMixSource(sourceId, value) {
     mixState[source.id] -= reduction;
     overflow -= reduction;
   });
+
+  if (overflow > 0) {
+    mixState[sourceId] = Math.max(0, mixState[sourceId] - overflow);
+  }
 }
 
 function renderMix() {
@@ -810,7 +838,20 @@ function renderMix() {
     stability += share * source.stability;
     gradientParts.push(`${source.color} ${start}% ${end}%`);
     document.querySelector(`#mix-${source.id}-value`).textContent = value.toString();
-    document.querySelector(`input[data-source="${source.id}"]`).value = value.toString();
+    const input = document.querySelector(`input[data-source="${source.id}"]`);
+    const control = input.closest(".mix-range");
+    const lockButton = control.querySelector(".lock-button");
+    const isLocked = mixLocked[source.id];
+
+    input.value = value.toString();
+    input.disabled = isLocked;
+    control.classList.toggle("locked", isLocked);
+    lockButton.setAttribute("aria-pressed", isLocked.toString());
+    lockButton.setAttribute(
+      "aria-label",
+      `${isLocked ? "Deverrouiller" : "Verrouiller"} ${source.label}`,
+    );
+    lockButton.title = isLocked ? "Deverrouiller" : "Verrouiller";
   });
 
   document.querySelector("#mix-donut").style.background =
