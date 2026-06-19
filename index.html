@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WattLab - Comprendre l'énergie en jouant</title>
-    <link rel="stylesheet" href="styles.css?v=20260618-1">
+    <title>WattLab - Explorer l'énergie en jouant</title>
+    <link rel="stylesheet" href="styles.css?v=20260619-2">
   </head>
   <body>
     <header class="topbar">
@@ -14,10 +14,12 @@
       </a>
       <nav class="module-nav" aria-label="Modules">
         <a class="active" href="#missions" data-mission="missions">Carte</a>
+        <a href="#voiture" data-mission="voiture">Voiture</a>
         <a href="#jeu" data-mission="jeu">1 kWh</a>
         <a href="#rendement" data-mission="rendement">Rendement</a>
         <a href="#stockage" data-mission="stockage">Stockage</a>
         <a href="#mix" data-mission="mix">Mix</a>
+        <a href="#badges" data-mission="badges">Badges</a>
       </nav>
     </header>
 
@@ -25,52 +27,96 @@
       <section class="mission-map" id="missions" aria-labelledby="mission-map-title">
         <div class="mission-intro">
           <p class="eyebrow">Carte des missions</p>
-          <h1 id="mission-map-title">Choisis ton d&eacute;fi &eacute;nergie</h1>
+          <h1 id="mission-map-title">Explore l'&eacute;nergie, une mission &agrave; la fois</h1>
           <p class="lead">
-            Un concept &agrave; la fois, un mini-jeu par mission. Tu peux suivre le
-            parcours dans l'ordre ou entrer par le sujet qui t'intrigue.
+            Chaque mini-jeu isole une id&eacute;e scientifique : ordre de grandeur,
+            pertes, stockage, mix &eacute;lectrique ou propulsion. Manipule, observe,
+            puis compare.
           </p>
         </div>
         <div class="mission-grid" aria-label="Missions disponibles">
+          <button class="mission-card" type="button" data-mission="voiture">
+            <span class="mission-icon car-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Mission 01 &middot; 8 min</span>
+            <strong>Atelier propulsion</strong>
+            <span>Choisis une cha&icirc;ne d'&eacute;nergie compl&egrave;te et regarde les compromis appara&icirc;tre.</span>
+            <b>Lancer</b>
+          </button>
           <button class="mission-card" type="button" data-mission="jeu">
             <span class="mission-icon kwh-icon" aria-hidden="true"></span>
-            <span class="mission-meta">Mission 01 &middot; 3 min</span>
-            <strong>Remplis 1 kWh</strong>
-            <span>Compose une journ&eacute;e et apprends les ordres de grandeur.</span>
+            <span class="mission-meta">Mission 02 &middot; 3 min</span>
+            <strong>Mesure 1 kWh</strong>
+            <span>Ajoute des usages et transforme une unit&eacute; abstraite en sc&egrave;ne concr&egrave;te.</span>
             <b>Lancer</b>
           </button>
           <button class="mission-card" type="button" data-mission="rendement">
             <span class="mission-icon loss-icon" aria-hidden="true"></span>
-            <span class="mission-meta">Mission 02 &middot; 4 min</span>
-            <strong>Traque les pertes</strong>
-            <span>Suis l'&eacute;nergie &agrave; chaque conversion jusqu'&agrave; la sortie utile.</span>
+            <span class="mission-meta">Mission 03 &middot; 4 min</span>
+            <strong>Suis les pertes</strong>
+            <span>Observe ce qui reste utile apr&egrave;s chaque conversion d'&eacute;nergie.</span>
             <b>Lancer</b>
           </button>
           <button class="mission-card" type="button" data-mission="stockage">
             <span class="mission-icon storage-icon" aria-hidden="true"></span>
-            <span class="mission-meta">Mission 03 &middot; 5 min</span>
+            <span class="mission-meta">Mission 04 &middot; 5 min</span>
             <strong>Passe la nuit</strong>
-            <span>Stocke assez d'&eacute;nergie sans exploser les pertes ni le co&ucirc;t.</span>
+            <span>Ajuste le stockage pour couvrir le soir avec des pertes et un co&ucirc;t visibles.</span>
             <b>Lancer</b>
           </button>
           <button class="mission-card" type="button" data-mission="mix">
             <span class="mission-icon mix-icon" aria-hidden="true"></span>
-            <span class="mission-meta">Mission 04 &middot; 4 min</span>
-            <strong>Construis le mix</strong>
-            <span>Atteins 100% en &eacute;quilibrant CO2, co&ucirc;t et stabilit&eacute;.</span>
+            <span class="mission-meta">Mission 05 &middot; 4 min</span>
+            <strong>Compose le mix</strong>
+            <span>R&eacute;partis la production et compare CO2, co&ucirc;t et stabilit&eacute;.</span>
             <b>Lancer</b>
           </button>
+          <button class="mission-card" type="button" data-mission="badges">
+            <span class="mission-icon badge-icon" aria-hidden="true"></span>
+            <span class="mission-meta">Collection</span>
+            <strong>Badges WattLab</strong>
+            <span>Retrouve tes d&eacute;couvertes et les pistes qu'il reste &agrave; explorer.</span>
+            <b>Voir</b>
+          </button>
+        </div>
+      </section>
+
+      <section class="module-section mission-screen badge-section" id="badges" aria-labelledby="badges-title" hidden>
+        <div class="module-heading">
+          <p class="eyebrow">Collection</p>
+          <h2 id="badges-title">Badges WattLab</h2>
+          <p>
+            Les badges marquent des observations r&eacute;ussies : une bonne intuition,
+            une cha&icirc;ne efficace, ou un compromis volontairement test&eacute;.
+          </p>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+        <div class="vehicle-badge-panel badge-page-panel">
+          <div class="vehicle-badge-header">
+            <div>
+              <p class="eyebrow">Progression</p>
+              <strong id="badge-summary">0 / 0 obtenus</strong>
+            </div>
+            <label class="vehicle-badge-menu">
+              <span>Afficher</span>
+              <select id="badge-filter">
+                <option value="all">Tous</option>
+                <option value="earned">Obtenus</option>
+                <option value="locked">A explorer</option>
+              </select>
+            </label>
+          </div>
+          <div class="badge-rack" id="badge-list" aria-label="Collection de badges"></div>
         </div>
       </section>
 
       <section class="lab mission-screen" id="jeu" aria-labelledby="main-title" hidden>
         <div class="lab-panel intro-panel">
-          <p class="eyebrow">Prototype 01</p>
-          <h1 id="main-title">1 kWh, ça représente quoi ?</h1>
+          <p class="eyebrow">Mission 02</p>
+          <h1 id="main-title">1 kWh, c'est grand comment ?</h1>
           <p class="lead">
-            Compose une mini-journée avec un budget fixe de 1 kWh. Le compteur
-            descend, les ordres de grandeur apparaissent, et la notion devient
-            enfin manipulable.
+            Ajoute des usages dans une r&eacute;serve de 1 kWh. Le compteur donne
+            l'ordre de grandeur, et le mode illimit&eacute; permet de comparer une
+            journ&eacute;e plus r&eacute;aliste.
           </p>
           <div class="key-fact">
             <span class="key-fact-value">1 kWh</span>
@@ -98,17 +144,20 @@
               </div>
             </div>
             <div class="game-status">
-              <span>Défi</span>
+              <span>Rep&egrave;re</span>
               <strong id="kwh-score">0 / 100</strong>
               <p id="kwh-mission">Approche-toi de 1 kWh sans dépasser.</p>
             </div>
+            <button class="secondary-button mode-button" id="unlimited-button" type="button" aria-pressed="false">
+              Mode illimit&eacute;
+            </button>
             <button class="secondary-button" id="reset-button" type="button">Réinitialiser</button>
           </aside>
 
           <div class="choice-panel">
             <div class="section-title">
-              <p class="eyebrow">Budget de jeu</p>
-              <h2>Choisis des usages</h2>
+              <p class="eyebrow">Usages</p>
+              <h2>Compose ta consommation</h2>
             </div>
             <div class="activity-grid" id="activity-grid"></div>
           </div>
@@ -116,11 +165,11 @@
 
         <section class="result-panel" aria-live="polite">
           <div>
-            <p class="eyebrow">Débrief</p>
-            <h2 id="result-title">Ton kWh est prêt.</h2>
+            <p class="eyebrow">Observation</p>
+            <h2 id="result-title">La r&eacute;serve est pr&ecirc;te.</h2>
             <p id="result-copy">
-              Ajoute quelques usages pour voir comment une même quantité
-              d'énergie peut paraître immense ou minuscule selon l'appareil.
+              Ajoute quelques usages : la m&ecirc;me quantit&eacute; d'&eacute;nergie peut sembler
+              grande ou minuscule selon la puissance et la dur&eacute;e.
             </p>
           </div>
           <ol class="timeline" id="selection-list" aria-label="Usages choisis"></ol>
@@ -132,12 +181,11 @@
 
       <section class="module-section mission-screen" id="rendement" aria-labelledby="efficiency-title" hidden>
         <div class="module-heading">
-          <p class="eyebrow">Prototype 02</p>
-          <h2 id="efficiency-title">Rendement et pertes</h2>
+          <p class="eyebrow">Mission 03</p>
+          <h2 id="efficiency-title">O&ugrave; part l'&eacute;nergie ?</h2>
           <p>
-            Pars de 100 unités d'énergie et compare ce qui arrive vraiment à
-            l'usage final. Les pertes ne disparaissent pas : elles deviennent
-            souvent de la chaleur moins utile.
+            Pars de 100 unit&eacute;s et suis leur trajet. A chaque conversion, une
+            partie continue vers l'usage utile, une autre devient une perte.
           </p>
           <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
         </div>
@@ -145,9 +193,9 @@
           <div class="option-list" id="efficiency-options" aria-label="Chaînes énergétiques"></div>
           <div class="science-panel">
             <div class="game-status">
-              <span>Défi</span>
+              <span>Rep&egrave;re</span>
               <strong id="efficiency-score">0 / 100</strong>
-              <p id="efficiency-challenge">Choisis une chaîne qui garde au moins 70 unités utiles.</p>
+              <p id="efficiency-challenge">Choisis une cha&icirc;ne qui garde au moins 70 unit&eacute;s utiles.</p>
             </div>
             <div class="energy-animation" id="efficiency-animation" aria-label="Animation énergie pertes">
               <div class="animation-node input-node">100</div>
@@ -170,7 +218,7 @@
             </div>
             <p class="science-note" id="efficiency-note"></p>
             <button class="mission-next" type="button" data-mission="stockage">
-              Jeu suivant : Stocke ou blackout
+              Jeu suivant : Stockage
             </button>
           </div>
         </div>
@@ -178,12 +226,12 @@
 
       <section class="module-section mission-screen" id="stockage" aria-labelledby="storage-title" hidden>
         <div class="module-heading">
-          <p class="eyebrow">Prototype 03</p>
-          <h2 id="storage-title">Stocke ou blackout</h2>
+          <p class="eyebrow">Mission 04</p>
+          <h2 id="storage-title">Stocker pour le soir</h2>
           <p>
-            Une ville solaire produit trop à midi et pas assez le soir. Ajuste
-            les moyens de stockage pour passer la nuit avec le moins de pertes
-            possible.
+            Une ville solaire produit beaucoup &agrave; midi et moins le soir. Dose
+            les stockages pour couvrir la demande, en gardant un oeil sur les
+            pertes et le co&ucirc;t.
           </p>
           <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
         </div>
@@ -202,8 +250,8 @@
             <div class="explain-card">
               <strong>STEP</strong>
               <p>
-                Station de transfert d'énergie par pompage : on pompe de l'eau
-                vers un bassin haut quand il y a trop d'électricité, puis on la
+                Station de transfert d'&eacute;nergie par pompage : on pompe de l'eau
+                vers un bassin haut quand il y a trop d'&eacute;lectricit&eacute;, puis on la
                 laisse redescendre dans une turbine quand on en a besoin.
               </p>
             </div>
@@ -215,22 +263,22 @@
           </div>
           <div class="science-panel">
             <div class="game-status">
-              <span>Défi</span>
+              <span>Rep&egrave;re</span>
               <strong id="storage-score">0 / 100</strong>
-              <p id="storage-challenge">Passe la nuit sans manque et avec moins de 25 MWh de pertes.</p>
+              <p id="storage-challenge">Couvre le soir avec moins de 25 MWh de pertes.</p>
             </div>
             <div class="storage-visuals" aria-label="Graphes de stockage">
               <div class="storage-chart">
                 <div class="chart-head">
                   <strong>Production et demande</strong>
-                  <span>jour simplifié</span>
+                  <span>jour simplifi&eacute;</span>
                 </div>
                 <div class="day-curve" id="storage-curve"></div>
               </div>
               <div class="storage-chart">
                 <div class="chart-head">
                   <strong>Besoin du soir</strong>
-                  <span>objectif 72 MWh</span>
+                  <span>rep&egrave;re 72 MWh</span>
                 </div>
                 <div class="coverage-gauge">
                   <span id="storage-coverage-fill"></span>
@@ -276,7 +324,7 @@
             </div>
             <p class="science-note" id="storage-note"></p>
             <button class="mission-next" type="button" data-mission="mix">
-              Jeu suivant : Construis ton mix
+              Jeu suivant : Compose le mix
             </button>
           </div>
         </div>
@@ -284,11 +332,11 @@
 
       <section class="module-section mission-screen" id="mix" aria-labelledby="mix-title" hidden>
         <div class="module-heading">
-          <p class="eyebrow">Prototype 04</p>
-          <h2 id="mix-title">Construis ton mix</h2>
+          <p class="eyebrow">Mission 05</p>
+          <h2 id="mix-title">Composer un mix &eacute;lectrique</h2>
           <p>
-            Répartis la production d'une ville. Le score ne cherche pas une
-            vérité unique : il montre les compromis entre CO2, coût et stabilité.
+            R&eacute;partis la production d'une ville. Il n'y a pas de recette unique :
+            le but est de lire les compromis entre CO2, co&ucirc;t et stabilit&eacute;.
           </p>
           <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
         </div>
@@ -296,9 +344,9 @@
           <div class="control-panel mix-controls" id="mix-controls" aria-label="Sources du mix"></div>
           <div class="science-panel">
             <div class="game-status">
-              <span>Défi</span>
+              <span>Rep&egrave;re</span>
               <strong id="mix-score">0 / 100</strong>
-              <p id="mix-challenge">Atteins 100% avec CO2 bas et stabilité correcte.</p>
+              <p id="mix-challenge">Atteins 100% avec CO2 bas et stabilit&eacute; correcte.</p>
             </div>
             <div class="mix-donut" id="mix-donut" aria-label="Répartition du mix">
               <span id="mix-total">100%</span>
@@ -322,14 +370,109 @@
               </div>
             </div>
             <p class="science-note" id="mix-note"></p>
-            <button class="mission-next" type="button" data-mission="missions">
-              Retour &agrave; la carte des missions
+            <button class="mission-next" type="button" data-mission="badges">
+              Voir les badges
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="module-section mission-screen vehicle-section" id="voiture" aria-labelledby="vehicle-title" hidden>
+        <div class="module-heading">
+          <p class="eyebrow">Mission 01</p>
+          <h2 id="vehicle-title">Atelier propulsion</h2>
+          <p>
+            Assemble une voiture depuis la source d'&eacute;nergie jusqu'aux roues.
+            Le score met en lumi&egrave;re les choix techniques, pas une solution unique.
+          </p>
+          <button class="mission-back" type="button" data-mission="missions">Retour &agrave; la carte</button>
+        </div>
+        <div class="vehicle-layout">
+          <div class="control-panel vehicle-controls" aria-label="Atelier de construction">
+            <label class="vehicle-name-control">
+              <span>Nom de la voiture</span>
+              <input id="vehicle-name" type="text" value="WattRunner">
+            </label>
+            <div>
+              <p class="eyebrow">Essai</p>
+              <div class="vehicle-missions" id="vehicle-missions"></div>
+            </div>
+            <div class="vehicle-builder" id="vehicle-builder"></div>
+          </div>
+          <div class="science-panel vehicle-panel">
+            <div class="game-status">
+              <span>Essai</span>
+              <strong id="vehicle-score">0 / 100</strong>
+              <p id="vehicle-challenge">Choisis un essai pour lancer l'analyse.</p>
+            </div>
+            <div class="vehicle-showroom">
+              <div class="vehicle-visual" id="vehicle-visual" aria-label="Voiture visuelle">
+                <span class="car-body"></span>
+                <span class="car-cabin"></span>
+                <span class="car-wheel front"></span>
+                <span class="car-wheel rear"></span>
+              </div>
+              <div class="vehicle-summary">
+                <span id="vehicle-archetype">Voiture experimentale</span>
+                <strong id="vehicle-display-name">WattRunner</strong>
+                <p id="vehicle-summary-copy">Assemble une chaine puis lance le banc d'essai.</p>
+              </div>
+            </div>
+            <div class="vehicle-chain" id="vehicle-chain" aria-label="Chaine energetique voiture"></div>
+            <div class="metric-grid vehicle-metrics">
+              <div>
+                <span>Rendement</span>
+                <strong id="vehicle-efficiency">0%</strong>
+              </div>
+              <div>
+                <span>Autonomie</span>
+                <strong id="vehicle-range">0 km</strong>
+              </div>
+              <div>
+                <span>CO2</span>
+                <strong id="vehicle-carbon">0 g/km</strong>
+              </div>
+              <div>
+                <span>Masse embarquee</span>
+                <strong id="vehicle-mass">0 kg</strong>
+              </div>
+              <div>
+                <span>Masse totale</span>
+                <strong id="vehicle-total-mass">0 kg</strong>
+              </div>
+              <div>
+                <span>Cout</span>
+                <strong id="vehicle-cost">0</strong>
+              </div>
+              <div>
+                <span>Puissance</span>
+                <strong id="vehicle-power">0 kW</strong>
+              </div>
+              <div>
+                <span>Vitesse max</span>
+                <strong id="vehicle-speed">0 km/h</strong>
+              </div>
+            </div>
+            <div class="vehicle-actions">
+              <button class="mission-next" id="vehicle-test-button" type="button">Lancer l'essai</button>
+              <button class="secondary-button" id="vehicle-save-button" type="button">Sauvegarder au garage</button>
+            </div>
+            <div class="vehicle-card" id="vehicle-card"></div>
+            <div class="garage-panel">
+              <div class="section-title">
+                <p class="eyebrow">Garage</p>
+                <h2>Voitures en garage</h2>
+              </div>
+              <div class="garage-list" id="garage-list"></div>
+            </div>
+            <button class="mission-next" type="button" data-mission="jeu">
+              Jeu suivant : Mesure 1 kWh
             </button>
           </div>
         </div>
       </section>
     </main>
 
-    <script src="script.js?v=20260618-1"></script>
+    <script src="script.js?v=20260619-6"></script>
   </body>
 </html>
